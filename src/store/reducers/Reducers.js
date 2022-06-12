@@ -8,7 +8,7 @@ const initialState = {
   filterUser: [],
 };
 
-function paginationReducer  (state = initialState, action)  {
+function userReducer  (state = initialState, action)  {
   switch (action.type) {
     case FETCH_USERS:
       return {
@@ -19,13 +19,13 @@ function paginationReducer  (state = initialState, action)  {
       return {
         data: action.payload,
       };
-      case SEARCH_USERS:
-        const {value} = action;
-        const filterUser = state.data.filter((val) => val.includes(value));
-        return {...state, value, filterUser};
+      // case SEARCH_USERS:
+      //   const {value} = action;
+      //   const filterUser = state.data.filter((val) => val.includes(value));
+      //   return {...state, value, filterUser};
     default:
       return state;
   }  
 };
 
-export default paginationReducer;
+export default userReducer;

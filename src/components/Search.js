@@ -1,13 +1,13 @@
 import React from 'react';
 import {TextInput, StyleSheet} from 'react-native';
 
-export const Search = ({value, onChangeText}) => {
+export const Search = ({onChangeText, onSubmitEditing}) => {
     return(
 <TextInput
         placeholder="Type Here..."
         placeholderTextColor="lightgray"
         style={styles.input}
-        value={value}
+        onSubmitEditing={onSubmitEditing}
         onChangeText={onChangeText}
       />
     );

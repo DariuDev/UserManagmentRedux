@@ -3,12 +3,15 @@ import {StyleSheet, View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as userActions from '../../store/actions/Actions';
 import { Search } from '../../components/Search';
+import filter from 'lodash.filter';
 
 const Home = props => {
   const [error, setError] = useState();
   const [refresh, setRefresh] = useState(false);
   const [search, setSearch] = useState('');
-  const state = useSelector(state => state.paginationReducer);
+  const [query, setQuery] = useState('');
+
+  const state = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
 
   const loadUser = useCallback(async () => {
@@ -35,19 +38,26 @@ const Home = props => {
     setRefresh(false);
   }, [dispatch, setError, setRefresh]);
 
-  const searchUser = useCallback(() => {
-    setError(null);
-    try{
-      dispatch(userActions.searchUser(state.searchUser))
-    } catch(err) {
-      setError(err.message);
+  const handleSearch = text => {
+    const formattedQuery = text.toLowerCase();
+    const filteredData = filter(state.data, t => {
+      return contains(t, formattedQuery);
+    });
+    setSearch(filteredData);
+    setQuery(text);
+  };
+  const contains = ({name}, query) => {
+    console.log({name} , 'name')
+    if (name.first.includes(query) || (name.last.includes(query))) {
+      return true;
     }
-  })
+    return false;
+  };
 
   const renderRow = ({item, index}) => {
     return (
       <View>
-        <Text>{item.name.first}</Text>
+        <Text>{item.name.first} {item.name.last}</Text>
       </View>
     );
   };
@@ -66,10 +76,10 @@ const Home = props => {
   return (
     <View style={styles.MainContainer}>
       <View style={styles.search}>
-      <Search value={search} onChangeText={() => searchUser()}  />
+      <Search onSubmitEditing={() => handleSearch(query)} onChangeText={(text) => handleSearch(text)}  />
       </View>
       <FlatList
-        data={state.data}
+        data={query == undefined || query == '' ? state.data : search}
         renderItem={renderRow}
         onRefresh={refreshUser}
         refreshing={refresh}

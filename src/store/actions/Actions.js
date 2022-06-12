@@ -30,10 +30,10 @@ export const fetchRefreshUser = () => {
     });
   };
 };
-export const searchUser = (value) => {
- dispatch({
-  types: SEARCH_USERS,
-   value,
- })
-}
+// export const searchUser = (value) => {
+//  dispatch({
+//   types: SEARCH_USERS,
+//    value,
+//  })
+// }
 
