@@ -19,10 +19,6 @@ function userReducer  (state = initialState, action)  {
       return {
         data: action.payload,
       };
-      // case SEARCH_USERS:
-      //   const {value} = action;
-      //   const filterUser = state.data.filter((val) => val.includes(value));
-      //   return {...state, value, filterUser};
     default:
       return state;
   }  
